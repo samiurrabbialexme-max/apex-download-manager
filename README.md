@@ -159,15 +159,17 @@ pip install -r requirements.txt
 python run.py
 ```
 
-### 5. Packaging into Standalone Windows `.exe` (Optional)
-To package Apex Download Manager into a standalone portable `.exe` that runs without requiring Python installed:
+### 5. Create Standalone Single `.exe` (Download & Run)
+To package Apex Download Manager into a single, portable `.exe` file that any Windows user can download and double-click to run without installing Python:
 ```powershell
 python build_windows.py
 ```
-Your compiled binary will be ready in:
+Your compiled single standalone executable will be generated at:
 ```
-dist\ApexDownloadManager\ApexDownloadManager.exe
+dist\ApexDownloadManager.exe
 ```
+
+> **Automated Cloud Builds (No Windows PC Required)**: This repository includes a GitHub Actions CI/CD workflow that automatically builds `ApexDownloadManager.exe` on a genuine Windows VM. You can download the compiled `.exe` directly from the **Actions** tab (under Artifacts) or from **Releases** on GitHub!
 
 ---
 

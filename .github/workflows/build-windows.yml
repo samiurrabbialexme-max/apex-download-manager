@@ -1,0 +1,55 @@
+name: Build Windows Executable (.exe)
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    name: Build Standalone Windows .exe
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pyinstaller pillow
+
+      - name: Generate Windows .ico icon
+        run: |
+          python -c "from PIL import Image; img = Image.open('resources/icon.png'); img.save('resources/icon.ico', sizes=[(16,16), (32,32), (48,48), (64,64), (128,128), (256,256)])"
+
+      - name: Build standalone .exe with PyInstaller
+        run: |
+          python build_windows.py
+
+      - name: Upload .exe as Artifact (Downloadable from GitHub Actions)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ApexDownloadManager-Windows-x64
+          path: dist/ApexDownloadManager.exe
+          if-no-files-found: error
+
+      - name: Publish to GitHub Releases (on tag push)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/ApexDownloadManager.exe
+          name: Apex Download Manager ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
