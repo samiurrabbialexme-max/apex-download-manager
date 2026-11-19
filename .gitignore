@@ -1,0 +1,67 @@
+# Environment variables & secrets
+.env
+.env.*
+*.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+
+# Build & packaging artifacts
+dist/
+build/
+*.spec
+*.egg-info/
+
+# Databases & local user state
+*.db
+*.db-wal
+*.db-shm
+*.log
+settings.json
+config.json
+bin/
+
+# Temporary download files & multi-part chunks
+*.part
+*.part_*
+*.downloading
+*.assembling
+*.tmp
+
+# Media outputs & test downloads
+*.webm
+*.mp4
+*.mp3
+*.m4a
+*.mkv
+*.iso
+*.zip
+*.tar.gz
+
+# IDE & Editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS metadata
+.DS_Store
+Thumbs.db
+desktop.ini

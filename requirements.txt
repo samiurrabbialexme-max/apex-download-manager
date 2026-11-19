@@ -1,0 +1,8 @@
+# Core Requirements for IDM Desktop Download Manager
+PySide6-Essentials>=6.6.0
+yt-dlp>=2024.1.0
+requests>=2.31.0
+urllib3>=2.0.0
+
+# Development and Testing
+pytest>=8.0.0
