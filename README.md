@@ -92,21 +92,58 @@ Project/
 
 ---
 
-## 💻 Setup & Installation on Windows
+## 📖 User Guide (How to Use Apex)
+
+### 1. Adding a Download
+- Click **➕ Add URL** in the top toolbar (or press `Ctrl+N`).
+- **Direct Files (ISO, ZIP, EXE, PDF, etc.)**:
+  - Paste any HTTP or HTTPS download link.
+  - Choose your preferred save destination.
+  - Set the number of concurrent segment connections (default is 8, up to 32 connections for maximum speed).
+  - Click **Start Download** (or **Download Later** to queue it).
+- **Streaming Media (YouTube, Facebook, Twitter/X, TikTok, etc.)**:
+  - Paste the video or audio URL.
+  - Apex automatically extracts metadata in the background, displaying the video title, author, duration, and thumbnail preview.
+  - **Select Format**:
+    - **Video**: Choose resolution (4K 2160p, 1440p, 1080p, 720p, etc.). Video and audio streams are automatically merged via `ffmpeg`.
+    - **Audio Only**: Select `Audio Only (MP3)` or `Audio Only (M4A)`. The file will automatically be converted to a standalone audio file.
+
+### 2. Managing Downloads & Queue
+- **Real-Time Dashboard**: Monitor live download progress, download speed (MB/s), ETA countdown, and file sizes.
+- **Controls**: Use the toolbar buttons or right-click any item:
+  - **▶ Resume**: Continue a paused or stopped download (resumes from the exact last byte).
+  - **⏸ Pause**: Gracefully pause active connections.
+  - **⏹ Stop**: Halt the download.
+  - **🗑 Delete**: Remove task from the queue, with an option to also delete downloaded files from disk.
+  - **🧹 Clear Finished**: Remove all completed tasks from the dashboard view with one click.
+- **Category Filter**: Use the left sidebar to quickly filter tasks by `Downloading`, `Queued`, `Completed`, `Paused`, `Failed`, `Media Streams`, or `Direct Files`.
+- **Open File / Folder**: Double-click or right-click any completed task to launch the file or reveal it in your file explorer.
+
+### 3. Clipboard Monitor (Quick Add)
+- When enabled (toggle in **Settings** or see bottom status bar), copying any supported URL in your web browser will automatically open the Quick Add dialog with the link already populated and metadata loaded.
+
+### 4. External Binaries (`yt-dlp` & `ffmpeg`)
+- Click **⚙ Binaries** in the toolbar to inspect tool status.
+- **Windows**: Apex includes an automatic 1-click binary downloader for both tools.
+- **Linux**: Install via system package manager (`sudo apt install ffmpeg`) or use the built-in downloader.
+
+---
+
+## 🪟 Windows Setup & Installation Guide
 
 ### Prerequisites
-- **Python 3.12 or newer** ([python.org](https://www.python.org/downloads/)). During installation, ensure **"Add Python to PATH"** is checked.
+- **Python 3.12 or newer** ([python.org](https://www.python.org/downloads/)).
+  > ⚠️ During installation, check the box: **"Add Python to PATH"**.
 - **Git** (optional).
 
-### 1. Clone or Extract the Project
-```bash
-git clone <repo-url>
-cd Project
+### 1. Clone the Repository
+```powershell
+git clone https://github.com/samiurrabbialexme-max/apex-download-manager.git
+cd apex-download-manager
 ```
 
-### 2. Create and Activate a Virtual Environment
+### 2. Create and Activate Virtual Environment
 ```powershell
-# Open PowerShell or Command Prompt
 python -m venv .venv
 .\.venv\Scripts\activate
 ```
@@ -120,6 +157,99 @@ pip install -r requirements.txt
 ### 4. Run the Application
 ```powershell
 python run.py
+```
+
+### 5. Packaging into Standalone Windows `.exe` (Optional)
+To package Apex Download Manager into a standalone portable `.exe` that runs without requiring Python installed:
+```powershell
+python build_windows.py
+```
+Your compiled binary will be ready in:
+```
+dist\ApexDownloadManager\ApexDownloadManager.exe
+```
+
+---
+
+## 🐧 Linux Setup & Installation Guide (Ubuntu, Debian, Fedora, Arch)
+
+### Prerequisites
+Install Python 3 and FFmpeg using your system's package manager:
+
+- **Ubuntu / Debian / Linux Mint**:
+  ```bash
+  sudo apt update
+  sudo apt install -y python3 python3-pip python3-venv ffmpeg
+  ```
+- **Fedora / RHEL**:
+  ```bash
+  sudo dnf install -y python3 python3-pip ffmpeg
+  ```
+- **Arch Linux / Manjaro**:
+  ```bash
+  sudo pacman -S python python-pip ffmpeg
+  ```
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/samiurrabbialexme-max/apex-download-manager.git
+cd apex-download-manager
+```
+
+### 2. Create and Activate Virtual Environment
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+*(On newer Debian/Ubuntu without venv, you can also install user-wide: `pip3 install --user --break-system-packages -r requirements.txt`)*
+
+### 3. Run the Application
+```bash
+python3 run.py
+```
+
+### 4. Create Desktop Shortcut & App Menu Launcher (Optional)
+To integrate Apex Download Manager directly into your Linux Application Menu and Desktop:
+
+```bash
+# 1. Create a launcher script in ~/.local/bin
+mkdir -p ~/.local/bin
+cat << 'EOF' > ~/.local/bin/apex-dl
+#!/bin/bash
+PROJECT_DIR="$HOME/Downloads/Project"
+cd "$PROJECT_DIR"
+if [ -d "$PROJECT_DIR/.venv" ]; then
+    source "$PROJECT_DIR/.venv/bin/activate"
+fi
+exec python3 run.py "$@"
+EOF
+chmod +x ~/.local/bin/apex-dl
+
+# 2. Install application menu shortcut
+mkdir -p ~/.local/share/applications ~/.local/share/icons
+cp resources/icon.png ~/.local/share/icons/apex-download-manager.png
+
+cat << EOF > ~/.local/share/applications/apex-download-manager.desktop
+[Desktop Entry]
+Name=Apex Download Manager
+Comment=High-speed segmented media and file download manager
+Exec=$HOME/.local/bin/apex-dl
+Icon=$HOME/.local/share/icons/apex-download-manager.png
+Terminal=false
+Type=Application
+Categories=Network;FileTransfer;
+StartupNotify=true
+EOF
+chmod +x ~/.local/share/applications/apex-download-manager.desktop
+
+# 3. (Optional) Copy shortcut to your Desktop
+cp ~/.local/share/applications/apex-download-manager.desktop ~/Desktop/
+chmod +x ~/Desktop/apex-download-manager.desktop
+```
+You can now search for **Apex Download Manager** in your application launcher or launch it from any terminal by typing:
+```bash
+apex-dl
 ```
 
 ---
