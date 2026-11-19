@@ -2,6 +2,10 @@
 
 A high-performance, modular desktop media and file download manager inspired by **Internet Download Manager (IDM)**, engineered with **Python 3.12+** and **PySide6 (Qt for Python)**.
 
+<p align="center">
+  <img src="resources/screenshot.png" alt="Apex Download Manager Dashboard" width="850">
+</p>
+
 ---
 
 ## 🚀 Key Features
